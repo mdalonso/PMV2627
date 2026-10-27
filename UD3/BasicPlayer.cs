@@ -6,7 +6,7 @@ public class BasicPlayer
     public int health;
     public int speed;
 
-    public BasicPlayer(string nameIni, int healthIni,int speed)
+    public BasicPlayer(string nameIni, int healthIni,int speed=10)
     {
         name = nameIni;
         health = healthIni;
