@@ -10,6 +10,6 @@ public class BasicPlayer
     {
         name = nameIni;
         health = healthIni;
-        this.speed=speed;
+        this.speed=speed;//Si tienen el mismo nombre hay que desambiguar con this.
     }
 }
