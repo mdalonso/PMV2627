@@ -3,12 +3,14 @@ using UnityEngine.InputSystem;
 
 public class ClaseJugador : MonoBehaviour
 {
-    Keyboard kb;
+    Keyboard kb;//Acceso al teclado
+    
     BasicPlayer player;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        kb = Keyboard.current;//Inicializa el teclado
+        kb = Keyboard.current;//Inicializa el teclado. Las inicializaciones se suelen hacer en Start() o en Awake()
 
         player =new BasicPlayer("Mi personaje", 10);//Inicializa el personaje con nombre y vida
 
