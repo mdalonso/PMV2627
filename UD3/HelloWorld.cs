@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//1. Declaración de campos de diferentes tipos primitivos de datos.
+//2. Inicialización de campos en Start()
+//3. Ámbito de campos: Se pueden usar en todos los métodos de la clase.
+//4. Ámbito de variables: Se usan sólo donde están declados
+
 public class HelloWorld : MonoBehaviour
 {
-    //Tipos de campos:
-
+    //Tipos primitivos de datos:
     int health;//Valores enteros
     float speed;//Valores decimales en punto flotante
     string namePlayer;//Valores de texto (cadenas)
@@ -12,8 +16,6 @@ public class HelloWorld : MonoBehaviour
     char confirm; //Valores de texto (un solo carácter)
 
     int count = 1; //Los campos se pueden inicializar en la propia declaración.
-
-   
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //Se ejecuta al justo antes de mostrar el primer frame si el objeto al que se asocia
@@ -38,17 +40,20 @@ public class HelloWorld : MonoBehaviour
     void Update()
     {
         string nameInTime;//Declaramos una variable local, sólo accesible dentro del método Update()
-
+        
         Debug.Log("Vamos a aprender a programar en Unity.");
-
+        
         //Los campos son accesibles por todos los métodos de la clase
         //operador + con valores numéricos (suma)
         health++;//El operador ++ incrementa en 1 el valor de la variable
-        speed++;
+        speed--;//El operador -- decrementa en 1 el valor de la variable
 
-        //operador + con cadenas (concatenación)
-        Debug.Log("Con concatenación: Health: " + health + " Speed: " + speed);
-        Debug.Log($"Con interpolación: Health: {health} Speed {speed}");//Interpolación de cadenas (C# 6.0 en adelante)
+        //Operadores aritméticos:
+        //a+b; a-b; a*b; a/b; a%b
+        //a+=b; a-=b; a*=b; a/=b
+
+        Debug.Log("Con concatenación: Health: " + health + " Speed: " + speed); //Concatenación de cadenas (operador +)
+        Debug.Log($"Con interpolación: Health: {health} Speed {speed}");//Interpolación de cadenas 
 
         //Ámbito de las variables
         count++; //--> Después cambiarlo por una llamada a IncreaseCounter()
@@ -65,7 +70,7 @@ public class HelloWorld : MonoBehaviour
     {
         //nameInTime contiene un nombre de jugador que depende de un contador que se incrementa en cada frame
         string nameInTime;
-
+        
         count++;
         nameInTime = namePlayer + " " + count;
         Debug.Log("Nombre de Jugador:" + nameInTime);
