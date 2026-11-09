@@ -5,51 +5,110 @@ public class Play : MonoBehaviour
 {
     Keyboard kb;
     Character personaje;
+    Player player;
+    Enemy enemigo;
 
-    public string nombrePersonaje="Personaje";//Para evitar valores mágicos, se puede usar un campo serializado para asignar el nombre del personaje desde el Inspector de Unity.
-    public int puntosVidaPersonaje=25; //Para evitar valores mágicos, se puede usar un campo serializado para asignar los puntos de vida del personaje desde el Inspector de Unity.
-    public int velocidadPersonaje = 5; //Para evitar valores mágicos, se puede usar un campo serializado para asignar la velocidad del personaje desde el Inspector de Unity.   
-    public int nivelPersonaje = 1; //Para evitar valores mágicos, se puede usar un campo serializado para asignar la velocidad del personaje desde el Inspector de Unity.   
+    string nombrePersonaje="Mi Personaje";
+    int healthPersonaje = -10;
+    int speedPersonaje = 15;
+
+    string nombrePlayer = "Mi Player";
+    int healthPlayer = 20;
+    int speedPlayer = 10;
+    int levelPlayer = 1;
+    int strengthPlayer = 5;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        kb = Keyboard.current;
-        personaje = new Character("Personaje", 10, 5, 1);//Valores mágicos
-        //personaje= new Character(nombrePersonaje, puntosVidaPersonaje, velocidadPersonaje,nivelPersonaje);//Con campo serializado evitando valores mágicos
+        kb=Keyboard.current;
 
-        Debug.Log("INICIALIZACIÓN DEL PERSONAJE BÁSICO");
+        personaje =new Character(nombrePersonaje, healthPersonaje,speedPersonaje);
+
+        Debug.Log("INICIALIZACIÓN DE PERSONAJE BÁSICO****************");
         Debug.Log($"Nombre del personaje: {personaje.NamePlayer}");
-        Debug.Log($"Health: {personaje.Health}");
-        //Debug.Log($"Health: {personaje._health}");//Esta línea da error porque _health es un campo privado de la clase Character y no es accesible desde la clase Play.
-        Debug.Log($"Speed: {personaje.Speed}");
-        //Debug.Log($"Level: {personaje._level}");//Esta línea da error porque _level es un campo protegido de la clase Character y no es accesible desde la clase Play.
-        Debug.Log($"Level: {personaje.Level}");
+        //Debug.Log($"Salud del personaje: {personaje._health}");
+        Debug.Log($"Salud del personaje: {personaje.Health}");
+        Debug.Log($"Velocidad del personaje: {personaje.speed}");
+        Debug.Log($"Nivel del personaje: {personaje.Level}");
+
+        Debug.Log("**************************************************");
+
+        player=new Player(nombrePlayer,healthPlayer,speedPlayer,levelPlayer,strengthPlayer);
+
+        Debug.Log("INICIALIZACIÓN DE PLAYER ****************");
+        Debug.Log($"Nombre del PLAYER: {player.NamePlayer}");
+        //Debug.Log($"Salud del personaje: {player._health}");
+        Debug.Log($"Salud del PLAYER: {player.Health}");
+        Debug.Log($"Velocidad del PLAYER: {player.speed}");
+        Debug.Log($"Nivel del PLAYER: {player.Level}");
+        Debug.Log($"Fuerza del PLAYER: {player.Strength}");
+
+        Debug.Log("**************************************************");
+
+        //enemigo=new Enemy("Enemigo1", 10, 5, 1, 2);
+        CrearEnemigos(15);
+
+        Debug.Log($"Número de enemigos creados: {Enemy.nEnemies}");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //al pulsar la techa h aumentamos la vida del personaje en 1
         if (kb.hKey.wasPressedThisFrame)
         {
-            IncreaseHealthCharacter();
-            
+            personaje.Health++;
+            Debug.Log($"Incremento de Salud del personaje: {personaje.Health}");
+
         }
-        if (kb.lKey.wasPressedThisFrame)
+
+        if (kb.dKey.wasPressedThisFrame)
         {
-            personaje.Level+=100;
-            Debug.Log($"Nivele incrementado: {personaje.Level}");
+            personaje.Health = -20;
+            Debug.Log($"Asignación negativa de Salud del personaje: {personaje.Health}");
+
         }
 
+        if (kb.mKey.wasPressedThisFrame)
+        {
+            personaje.ShowMessage();
+            player.ShowMessage();
+        }
 
+        if (kb.sKey.wasPressedThisFrame)
+        {
+            enemigo.Shoot();
+        }
+
+        if (kb.pKey.wasPressedThisFrame)
+        {
+            player.Attack();
+            int index = Random.Range(0, Statistics.enemies.Count);
+            Statistics.enemies[index].TakeDamage(1);
+
+        }
+
+        if (kb.eKey.wasPressedThisFrame)
+        {
+            //Generar un número aleatorio entre 0 y el número de enemigos creados
+            int index = Random.Range(0, Statistics.enemies.Count);
+            Statistics.enemies[index].Attack();
+            player.TakeDamage(1);
+        }
     }
 
-    public void IncreaseHealthCharacter()
+    public void CrearEnemigos(int num)
     {
-        personaje.Health++;
-        //personaje._health++;//Esta línea da error porque _health es un campo privado de la clase Character y no es accesible desde la clase Play.
-        Debug.Log($"Health: {personaje.Health}");
+        if (num>Statistics.MaxEnemies)
+        {
+            Debug.Log($"No se pueden crear más de {Statistics.MaxEnemies} enemigos");
+            num=Statistics.MaxEnemies;
+        }
+        for (int i = 0; i < num; i++)
+        {
+            Enemy e = new Enemy("Enemigo" + (i + 1), 10, 5, 1, 2);
+            Statistics.enemies.Add(e);
+        }
     }
-
 }
